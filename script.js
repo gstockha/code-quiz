@@ -107,8 +107,8 @@ function endQuiz(){
 
 function loadScore(){
     let savedScores = localStorage.getItem("scores");
-    if (!savedScores) return false;
-    scores = JSON.parse(savedScores); //to array
+    if (!savedScores) scores = -1;
+    else scores = JSON.parse(savedScores); //to array
 }
 
 function saveScore(){
@@ -126,14 +126,16 @@ function saveScore(){
 
 function displayScores(){
     qlistEl.textContent = "";
-    scores.sort(); //looked online for this one
-    let size = scores.length;
-    if (size > 6) size = 6;
-    let scr;
-    for (var i = size - 1; i > -1; i--){
-        scr = document.createElement("ul");
-        scr.textContent = scores[i];
-        qlistEl.appendChild(scr);
+    if (scores != -1){
+        scores.sort(); //looked online for this one
+        let size = scores.length;
+        if (size > 6) size = 6;
+        let scr;
+        for (var i = size - 1; i > -1; i--){
+            scr = document.createElement("ul");
+            scr.textContent = scores[i];
+            qlistEl.appendChild(scr);
+        }
     }
     promptEl.textContent = "Keep studying! Refresh to try again!";
 }
