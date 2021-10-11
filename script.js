@@ -1,13 +1,17 @@
 var listEl = [document.querySelector("#question1")];
 var promptEl = document.querySelector("h1");
 var timeEl = document.querySelector("h3");
-var qlistEL = document.querySelector("ul");
+var qlistEl = document.querySelector("ul");
 var footEl = document.querySelector("h4");
+var scoresEl = document.querySelector("h2");
 var startBlurb = true; //init info screen
-var timeLeft = 100;
+var timeLeft = 100; //100 seconds
 var qList = [];
 var correctNum = -1;
 var timer;
+var scores = [];
+var submit;
+var enterName;
 
 function newQuestions(event){
     if (!startBlurb){ //if we've initialized buttons and question array
@@ -56,14 +60,14 @@ function initQuiz(){
     timeEl.textContent = "Time left: " + timeLeft.toString();
     let nuButton;
     let nuID;
-    qlistEL.removeChild(listEl[0]);
+    qlistEl.removeChild(listEl[0]);
     for (var i = 0; i < 4; i++){ //create 3 new buttons and add listeners to them
         nuID = "question" + (i+1).toString();
         nuButton = document.createElement("li");
         nuButton.id = nuID;
         nuButton.innerHTML = "<span></span>";
         nuButton.setAttribute("num",i+1);
-        qlistEL.appendChild(nuButton);
+        qlistEl.appendChild(nuButton);
         listEl[i] = document.querySelector('#'+nuID);
         listEl[i].addEventListener("click", newQuestions);
     }
@@ -81,8 +85,59 @@ function setTimer(){
 }
 
 function endQuiz(){
-    timeLeft = 0;
     timeEl.textContent = "TIME'S UP!";
+    footEl.textContent = "";
+    for (let i = 0; i < 4; i++){
+        qlistEl.removeChild(listEl[i]);
+    }
+    if (timeLeft < 0){ //loser
+        displayScores();
+    }
+    else{ //you didn't lose
+        promptEl.textContent = "Good job. Enter your highscore!";
+        enterName = document.createElement("input");
+        qlistEl.textContent = "Enter name:"
+        qlistEl.appendChild(enterName);
+        submit = document.createElement("h5");
+        submit.textContent = "Submit";
+        submit.addEventListener("click",saveScore);
+        qlistEl.appendChild(submit);
+    }
+}
+
+function loadScore(){
+    let savedScores = localStorage.getItem("scores");
+    if (!savedScores) return false;
+    scores = JSON.parse(savedScores); //to array
+}
+
+function saveScore(){
+    let nameInput = document.querySelector("input").value;
+    if (nameInput != ""){ //if not empty
+        let name = nameInput;
+        name = timeLeft.toString() + ": " + name;
+        scores.push(name);
+        console.log(scores);
+        localStorage.setItem("scores",JSON.stringify(scores));
+        
+        displayScores();
+    }
+}
+
+function displayScores(){
+    qlistEl.textContent = "";
+    scores.sort(); //looked online for this one
+    let size = scores.length;
+    if (size > 6) size = 6;
+    let scr;
+    for (var i = size - 1; i > -1; i--){
+        scr = document.createElement("ul");
+        scr.textContent = scores[i];
+        qlistEl.appendChild(scr);
+    }
+    promptEl.textContent = "Keep studying! Refresh to try again!";
 }
 
 listEl[0].addEventListener("click", newQuestions);
+scoresEl.addEventListener("click", displayScores);
+loadScore();
