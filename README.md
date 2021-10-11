@@ -9,3 +9,5 @@ Otherwise, if you run out of time, you'll just be shown the previous scores and 
 
 I initialized the buttons and 2d questions array in the initQuiz function, triggered by a bool in the main newQuestions function.
 This task was pretty straightforward. For improvement, we could use media queries in the style sheet for ease of use on mobile. Wasn't sure if this was necessary for the assignment.
+
+![hw4](https://user-images.githubusercontent.com/54012873/136868292-3bd53113-2276-49fd-9508-3fbcf69e530c.png)
