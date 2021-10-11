@@ -5,7 +5,7 @@ var qlistEl = document.querySelector("ul");
 var footEl = document.querySelector("h4");
 var scoresEl = document.querySelector("h2");
 var startBlurb = true; //init info screen
-var timeLeft = 100; //100 seconds
+var timeLeft = 80; //80 seconds
 var qList = [];
 var correctNum = -1;
 var timer;
