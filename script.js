@@ -54,7 +54,7 @@ function initQuiz(){
         [2,"function func(){...}","var func() = function(){...}","Both 1 & 2","None of the above","What are some ways to define Functions in JavaScript?"],
         [1,"for (i < x; i++; var i = 0){...}","for (var i = 0; i < x; i++){...}","for (var i = 0, i < x, i++){...}","for (i++; var i = 0; i < x){...}",'How do you write a "for-loop" in JavaScript?'],
         [0,"A function passed as an argument or option","A function only defined anonymously","A function that calls itself","A variable passed as an argument for a function",'What is a "callback"?'],
-        [4,"JSON()","JSON.parse()","JSON.append()","JSON.stringify()","How do you make an Object JSON-friendly?"]
+        [3,"JSON()","JSON.parse()","JSON.append()","JSON.stringify()","How do you make an Object JSON-friendly?"]
     ];
     timer = setInterval(setTimer,1000); //set timer every 1 sec
     timeEl.textContent = "Time left: " + timeLeft.toString();
@@ -108,7 +108,10 @@ function endQuiz(){
 function loadScore(){
     let savedScores = localStorage.getItem("scores");
     if (!savedScores) scores = -1;
-    else scores = JSON.parse(savedScores); //to array
+    else{
+        scores = JSON.parse(savedScores); //to array
+        scores.sort(function(a, b){return b - a}); //got this online
+    }
 }
 
 function saveScore(){
